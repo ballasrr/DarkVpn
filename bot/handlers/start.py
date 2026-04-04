@@ -9,18 +9,16 @@ from bot.keyboards.main import main_kb
 router = Router()
 
 WELCOME_TEXT = """
-🌑 <b>Добро пожаловать в DarkVPN</b>
+🌑 <b>DarkVPN — свобода в сети</b>
 
-Быстрый и надёжный VPN для обхода блокировок.
+Обходи любые блокировки быстро и надёжно.
 
-⚡️ Протокол VLESS+Reality — не блокируется
+⚡️ Протокол VLESS — не блокируется
 🌍 Серверы в Европе и США
-📱 Работает на всех устройствах
+📱 iOS, Android, Windows, Mac
 
-Нажми <b>Купить подписку</b> чтобы начать.
-Или получи <b>3 дня бесплатно</b> прямо сейчас!
+Выбери тариф и подключайся за 1 минуту.
 """
-
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
