@@ -122,7 +122,7 @@ async def support(callback: CallbackQuery):
     await callback.message.edit_text(
         "💬 <b>Поддержка DarkVPN</b>\n\n"
         "Если что-то не работает — напиши нам:\n"
-        "@darkvpn_support\n\n"
+        "@Ballas_RR\n\n"
         "Отвечаем в течение 24 часов.",
         reply_markup=back_kb(),
         parse_mode="HTML",
