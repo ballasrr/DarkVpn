@@ -57,7 +57,7 @@ async def pay_sbp(callback: CallbackQuery):
                 username=callback.from_user.username,
             )
 
-            pay_url, payment_id = yukassa.create_sbp_payment(
+            pay_url, payment_id = await yukassa.create_sbp_payment(
                 amount_rub=plan["rub"],
                 plan_name=plan["name"],
                 user_id=callback.from_user.id,

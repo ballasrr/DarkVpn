@@ -1,4 +1,5 @@
 import uuid
+import asyncio
 from yookassa import Configuration, Payment
 
 
@@ -8,7 +9,7 @@ class YookassaService:
         Configuration.account_id = shop_id
         Configuration.secret_key = secret_key
 
-    def create_sbp_payment(
+    def _create_sbp_payment_sync(
         self,
         amount_rub: float,
         plan_name: str,
@@ -38,6 +39,21 @@ class YookassaService:
         pay_url = payment.confirmation.confirmation_url
         payment_id = payment.id
         return pay_url, payment_id
+
+    async def create_sbp_payment(
+        self,
+        amount_rub: float,
+        plan_name: str,
+        user_id: int,
+        plan_key: str,
+    ) -> tuple[str, str]:
+        return await asyncio.to_thread(
+            self._create_sbp_payment_sync,
+            amount_rub,
+            plan_name,
+            user_id,
+            plan_key,
+        )
 
 
 from app.core.config import settings
