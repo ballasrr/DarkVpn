@@ -52,7 +52,6 @@ class SubscriptionService:
         session: AsyncSession,
         user: User,
     ) -> Subscription:
-        # выбираем активный сервер с наименьшей нагрузкой
         result = await session.execute(
             select(Server)
             .where(Server.is_active == True)
@@ -63,8 +62,7 @@ class SubscriptionService:
         if not server:
             raise ValueError("Нет доступных серверов")
 
-        # создаём пользователя в Marzban
-        marzban_username = f"dark_{user.telegram_id}"
+        marzban_username = f"DarkVPN_{user.telegram_id}"
         await marzban.create_user(
             username=marzban_username,
             days=3,
@@ -72,11 +70,9 @@ class SubscriptionService:
         )
         vless_key = await marzban.get_user_key(marzban_username)
 
-        # обновляем marzban_username у юзера
         user.marzban_username = marzban_username
         session.add(user)
 
-        # создаём подписку
         subscription = Subscription(
             user_id=user.id,
             server_id=server.id,
@@ -96,7 +92,6 @@ class SubscriptionService:
         user: User,
         plan: Plan,
     ) -> Subscription:
-        # выбираем сервер
         result = await session.execute(
             select(Server)
             .where(Server.is_active == True)
@@ -107,9 +102,8 @@ class SubscriptionService:
         if not server:
             raise ValueError("Нет доступных серверов")
 
-        marzban_username = user.marzban_username or f"dark_{user.telegram_id}"
+        marzban_username = user.marzban_username or f"DarkVPN_{user.telegram_id}"
 
-        # продлеваем или создаём в Marzban
         try:
             await marzban.update_user(
                 username=marzban_username,
@@ -130,7 +124,6 @@ class SubscriptionService:
             user.marzban_username = marzban_username
             session.add(user)
 
-        # деактивируем старую подписку если есть
         old = await self.get_active_subscription(session, user.id)
         if old:
             old.status = SubscriptionStatus.expired
@@ -158,7 +151,6 @@ class SubscriptionService:
         subscription.status = SubscriptionStatus.expired
         session.add(subscription)
 
-        # отключаем в Marzban
         user = await session.get(User, subscription.user_id)
         if user and user.marzban_username:
             await marzban.disable_user(user.marzban_username)
