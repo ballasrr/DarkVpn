@@ -99,23 +99,25 @@ async def buy(callback: CallbackQuery):
 @router.callback_query(F.data == "guide")
 async def guide(callback: CallbackQuery):
     await callback.message.edit_text(
-        "📖 <b>Как подключиться</b>\n\n"
-        "<b>Android:</b>\n"
-        "1. Скачай v2rayNG из Play Market\n"
-        "2. Нажми + → Импорт из буфера\n"
-        "3. Вставь свой ключ\n\n"
-        "<b>iOS:</b>\n"
-        "1. Скачай Streisand из App Store\n"
-        "2. Нажми + → Вставить из буфера\n\n"
-        "<b>Windows:</b>\n"
-        "1. Скачай v2rayN\n"
-        "2. Servers → Add → Вставь ключ\n\n"
-        "🔑 Свой ключ найди в разделе <b>Мой ключ</b>",
+        "📖 <b>Как подключиться через Hiddify</b>\n\n"
+        "1. Скачай приложение для своего устройства:\n\n"
+        "📱 <b>iOS</b>\n"
+        "<a href='https://apps.apple.com/app/hiddify-proxy-vpn/id6596777532'>Скачать Hiddify для iOS</a>\n\n"
+        "🤖 <b>Android</b>\n"
+        "<a href='https://play.google.com/store/apps/details?id=app.hiddify.com'>Скачать Hiddify для Android</a>\n\n"
+        "🖥 <b>Windows</b>\n"
+        "<a href='https://github.com/hiddify/hiddify-app/releases/latest/download/Hiddify-Windows-Setup-x64.exe'>Скачать Hiddify для Windows</a>\n\n"
+        "🍎 <b>macOS</b>\n"
+        "<a href='https://apps.apple.com/app/hiddify-proxy-vpn/id6596777532'>Скачать Hiddify для macOS</a>\n\n"
+        "2. Открой приложение\n"
+        "3. Нажми <b>+</b> → <b>Вставить из буфера обмена</b>\n"
+        "4. Вставь свой ключ из раздела <b>🔑 Мой ключ</b>\n"
+        "5. Нажми <b>Подключить</b>",
         reply_markup=back_kb(),
         parse_mode="HTML",
+        disable_web_page_preview=True,
     )
     await callback.answer()
-
 
 @router.callback_query(F.data == "support")
 async def support(callback: CallbackQuery):
