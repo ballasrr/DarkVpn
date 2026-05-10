@@ -42,7 +42,7 @@ class MarzbanClient:
                     "inbounds": {"vless": ["VLESS TCP REALITY"]},
                     "expire": expire_ts,
                     "data_limit": traffic_gb * 1024 ** 3,
-                    "data_limit_reset_strategy": "no_reset",
+                    "data_limit_reset_strategy": "week",
                     "status": "active",
                 },
             )
@@ -64,7 +64,7 @@ class MarzbanClient:
         user = await self.get_user(username)
         links = user.get("links", [])
         if not links:
-            raise ValueError(f"ет ключей для пользователя {username}")
+            raise ValueError(f"Нет ключей для пользователя {username}")
         return links[0]
 
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10))
