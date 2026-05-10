@@ -124,10 +124,17 @@ class SubscriptionService:
             user.marzban_username = marzban_username
             session.add(user)
 
+        # если есть активная подписка — продлеваем от даты истечения
         old = await self.get_active_subscription(session, user.id)
         if old:
-            old.status = SubscriptionStatus.expired
+            new_expires = old.expires_at + timedelta(days=plan.duration_days)
+            old.expires_at = new_expires
+            old.vless_key = vless_key
+            old.plan_id = plan.id
             session.add(old)
+            await session.commit()
+            await session.refresh(old)
+            return old
 
         subscription = Subscription(
             user_id=user.id,
